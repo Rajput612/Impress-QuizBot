@@ -16,4 +16,14 @@ Steps to run the project without Docker
 2. Install and run postgresql, and change the `DATABASES` config in `settings.py`, if required.
 3. Install and run redis, and update the `CHANNEL_LAYERS` config in `settings.py`, if required.
 4. In the project root run `python manage.py runserver`
-4. Go to `127.0.0.1:8000` to view the chatbot
+5. Go to `127.0.0.1:8000` to view the chatbot
+
+Steps to run the tests
+
+1. Install pytest by running pip install pytest, if not already installed.
+2. To run tests:
+   1. If using Docker:
+      . Run docker exec -it quiz-bot-web-1 pytest core/tests.py. 
+   2. Without Docker:
+      . Run pytest core/tests.py in the project root.
+            All test cases are located in the core app.
