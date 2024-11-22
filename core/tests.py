@@ -55,7 +55,10 @@ def test_quiz_completion(session):
 
     # Validate the quiz completion message
     assert "Quiz completed!" in response[0]
-    assert f"You scored {len(PYTHON_QUESTION_LIST)}/{len(PYTHON_QUESTION_LIST)}." in response[0]
+    assert (
+        f"You scored {len(PYTHON_QUESTION_LIST)}/{len(PYTHON_QUESTION_LIST)}."
+        in response[0]
+    )
 
 
 def test_generate_final_response(session):
@@ -63,7 +66,11 @@ def test_generate_final_response(session):
     session["user_answers"] = [
         {"question_id": 0, "answer": "7", "correct": True},
         {"question_id": 1, "answer": "1var", "correct": False},
-        {"question_id": 2, "answer": "Returns the number of items in a list", "correct": True},
+        {
+            "question_id": 2,
+            "answer": "Returns the number of items in a list",
+            "correct": True,
+        },
     ]
 
     final_response = generate_final_response(session)

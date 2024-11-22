@@ -17,11 +17,18 @@ def generate_bot_responses(message, session):
         current_question_id = 0  # Start from the first question
         first_question = PYTHON_QUESTION_LIST[current_question_id]
         question_text = first_question["question_text"]
-        options = "\n".join([f"{idx + 1}. {option}" for idx, option in enumerate(first_question["options"])])
+        options = "\n".join(
+            [
+                f"{idx + 1}. {option}"
+                for idx, option in enumerate(first_question["options"])
+            ]
+        )
         bot_responses.append(f"{question_text}\n\nOptions:\n{options}")
 
         # Initialize session state for the quiz
-        session["current_question_id"] = current_question_id  # Keep it as the current question
+        session["current_question_id"] = (
+            current_question_id  # Keep it as the current question
+        )
         session["user_answers"] = []  # Initialize the list of answers for the quiz
 
     else:
@@ -32,7 +39,12 @@ def generate_bot_responses(message, session):
             # If the answer is invalid, show options again
             bot_responses.append(error)
             current_question = PYTHON_QUESTION_LIST[current_question_id]
-            options = "\n".join([f"{idx + 1}. {option}" for idx, option in enumerate(current_question["options"])])
+            options = "\n".join(
+                [
+                    f"{idx + 1}. {option}"
+                    for idx, option in enumerate(current_question["options"])
+                ]
+            )
             bot_responses.append(f"Please choose from: \n{options}")
             return bot_responses  # Return early to allow the user to correct the answer
 
@@ -41,7 +53,9 @@ def generate_bot_responses(message, session):
 
         if next_question:
             bot_responses.append(next_question)
-            session["current_question_id"] = next_question_id  # Update to the next question
+            session["current_question_id"] = (
+                next_question_id  # Update to the next question
+            )
         else:
             # If no more questions, generate the final response
             final_response = generate_final_response(session)
@@ -75,7 +89,13 @@ def record_current_answer(answer, current_question_id, session):
 
     # Store the user's answer in the session
     user_answers = session.get("user_answers", [])
-    user_answers.append({"question_id": current_question_id, "answer": answer, "correct": answer == correct_answer})
+    user_answers.append(
+        {
+            "question_id": current_question_id,
+            "answer": answer,
+            "correct": answer == correct_answer,
+        }
+    )
     session["user_answers"] = user_answers
 
     return True, ""
@@ -90,7 +110,9 @@ def get_next_question(current_question_id):
     if next_question_id < len(PYTHON_QUESTION_LIST):
         question = PYTHON_QUESTION_LIST[next_question_id]
         question_text = question["question_text"]
-        options = "\n".join([f"{idx + 1}. {option}" for idx, option in enumerate(question["options"])])
+        options = "\n".join(
+            [f"{idx + 1}. {option}" for idx, option in enumerate(question["options"])]
+        )
         return f"{question_text}\n\nOptions:\n{options}", next_question_id
 
     # If no more questions, return None
@@ -100,7 +122,9 @@ def get_next_question(current_question_id):
 def generate_final_response(session):
     user_answers = session.get("user_answers", [])
     correct_count = sum(1 for ans in user_answers if ans["correct"])
-    total_questions = len(user_answers)  # Use answered questions count instead of full list length
+    total_questions = len(
+        user_answers
+    )  # Use answered questions count instead of full list length
     score_message = f"Quiz completed! You scored {correct_count}/{total_questions}."
     bot_responses = [score_message, "Would you like to restart the quiz? (yes/no)"]
     return "\n".join(bot_responses)

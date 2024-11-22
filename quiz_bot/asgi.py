@@ -13,7 +13,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quiz_bot.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "quiz_bot.settings")
 
 
 from core.routing import websocket_urlpatterns
